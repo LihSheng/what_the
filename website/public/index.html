@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Tools Collection</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>🛠️ Personal Tools Collection</h1>
+        <p>A collection of handy mini tools for developers</p>
+    </header>
+
+    <nav>
+        <button class="tool-btn active" data-tool="json">JSON Tools</button>
+        <button class="tool-btn" data-tool="text">Text Tools</button>
+        <button class="tool-btn" data-tool="url">URL Tools</button>
+        <a href="http://localhost:5678" target="_blank" class="n8n-link">🔗 n8n Workflows</a>
+    </nav>
+
+    <main>
+        <!-- JSON Tools -->
+        <div id="json-tools" class="tool-section active">
+            <h2>JSON Beautifier & Minifier</h2>
+            <div class="tool-container">
+                <textarea id="json-input" placeholder="Paste your JSON here..."></textarea>
+                <div class="button-group">
+                    <button onclick="beautifyJSON()">Beautify</button>
+                    <button onclick="minifyJSON()">Minify</button>
+                    <button onclick="clearJSON()">Clear</button>
+                </div>
+                <textarea id="json-output" placeholder="Result will appear here..." readonly></textarea>
+            </div>
+        </div>
+
+        <!-- Text Tools -->
+        <div id="text-tools" class="tool-section">
+            <h2>Text Utilities</h2>
+            <div class="tool-container">
+                <textarea id="text-input" placeholder="Enter your text here..."></textarea>
+                <div class="button-group">
+                    <button onclick="toUpperCase()">UPPERCASE</button>
+                    <button onclick="toLowerCase()">lowercase</button>
+                    <button onclick="countWords()">Count Words</button>
+                </div>
+                <textarea id="text-output" placeholder="Result will appear here..." readonly></textarea>
+            </div>
+        </div>
+
+        <!-- URL Tools -->
+        <div id="url-tools" class="tool-section">
+            <h2>URL Utilities</h2>
+            <div class="tool-container">
+                <textarea id="url-input" placeholder="Enter your URL here..."></textarea>
+                <div class="button-group">
+                    <button onclick="encodeURL()">Encode</button>
+                    <button onclick="decodeURL()">Decode</button>
+                </div>
+                <textarea id="url-output" placeholder="Result will appear here..." readonly></textarea>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
