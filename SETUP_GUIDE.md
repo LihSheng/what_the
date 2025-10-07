@@ -250,6 +250,45 @@ docker-compose exec website npm install new-package
 docker stats $(docker-compose ps -q)
 ```
 
+### Updating n8n
+
+#### Quick Update Scripts
+```bash
+# Windows (PowerShell)
+.\update-n8n.ps1
+
+# Linux/macOS
+chmod +x update-n8n.sh
+./update-n8n.sh
+```
+
+#### Manual Update Process
+```bash
+# 1. Pull latest n8n image
+docker-compose pull n8n
+
+# 2. Restart n8n service with new image
+docker-compose up -d n8n
+
+# 3. Verify update
+docker-compose exec n8n n8n --version
+
+# 4. Check service status
+docker-compose ps
+```
+
+#### Update All Services
+```bash
+# Pull all latest images
+docker-compose pull
+
+# Restart all services
+docker-compose up -d
+
+# Check all versions
+docker images | grep -E "(n8n|nginx|node)"
+```
+
 ### Development Workflow
 ```bash
 # 1. Make code changes

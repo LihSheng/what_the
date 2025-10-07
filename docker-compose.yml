@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Personal website with mini tools
   website:
