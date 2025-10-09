@@ -25,7 +25,7 @@ services:
   nginx:
     image: nginx:alpine
     ports:
-      - "80:80"
+      - "8080:80"
       - "5678:5678"
     volumes:
       - ./nginx/nginx.local.conf:/etc/nginx/nginx.conf
