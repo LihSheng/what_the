@@ -18,6 +18,7 @@ services:
       - N8N_HOST=${N8N_HOST:-localhost}
       - N8N_PORT=5678
       - N8N_PROTOCOL=${N8N_PROTOCOL:-http}
+      - WEBHOOK_URL=https://n8n.lihsheng.space/
     volumes:
       - n8n_data:/home/node/.n8n
     restart: unless-stopped
