@@ -2,6 +2,22 @@
 
 This guide provides detailed setup instructions for different operating systems.
 
+## 🚀 Quick Local Development Setup
+
+**Before following platform-specific instructions, try this simple approach:**
+
+1. **Install Docker Desktop** for your platform (see sections below)
+2. **Clone the repository**
+3. **Run the local development setup**:
+   ```bash
+   docker-compose -f docker-compose.prod.yml up --build -d
+   ```
+4. **Access your applications**:
+   - Personal Tools: http://localhost:3000
+   - n8n Workflows: http://localhost:5678
+
+> **Note:** The main `docker-compose.yml` is configured for production with SSL certificates. Always use `docker-compose.prod.yml` for local development.
+
 ## 🪟 Windows Setup
 
 ### Prerequisites Installation
@@ -34,14 +50,18 @@ This guide provides detailed setup instructions for different operating systems.
    cd C:\path\to\your\project
    
    # Start Docker Desktop first (wait for it to fully load)
-   # Then run:
-   docker-compose up --build -d
+   # Then run LOCAL DEVELOPMENT version:
+   docker-compose -f docker-compose.prod.yml up --build -d
    ```
 
 2. **Check Status**
    ```powershell
-   docker-compose ps
+   docker-compose -f docker-compose.prod.yml ps
    ```
+
+3. **Access Applications**
+   - Personal Tools: http://localhost:3000
+   - n8n Workflows: http://localhost:5678
 
 ### Windows-Specific Commands
 ```powershell
@@ -114,11 +134,15 @@ newgrp docker
 git clone <your-repo>
 cd personal-tools-website
 
-# Build and run
-docker-compose up --build -d
+# Build and run (LOCAL DEVELOPMENT)
+docker-compose -f docker-compose.prod.yml up --build -d
 
 # Check status
-docker-compose ps
+docker-compose -f docker-compose.prod.yml ps
+
+# Access applications
+# Personal Tools: http://localhost:3000
+# n8n Workflows: http://localhost:5678
 ```
 
 ## 🍎 macOS Setup
@@ -148,11 +172,15 @@ brew install docker-machine
 cd /path/to/your/project
 
 # Start Docker Desktop (if using GUI version)
-# Then run:
-docker-compose up --build -d
+# Then run LOCAL DEVELOPMENT version:
+docker-compose -f docker-compose.prod.yml up --build -d
 
 # Check status
-docker-compose ps
+docker-compose -f docker-compose.prod.yml ps
+
+# Access applications
+# Personal Tools: http://localhost:3000
+# n8n Workflows: http://localhost:5678
 ```
 
 ## 🔧 Build Commands Reference

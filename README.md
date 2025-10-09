@@ -2,6 +2,19 @@
 
 A dockerized personal website featuring a collection of mini tools and n8n workflow automation platform.
 
+## 🏃‍♂️ Quick Start for Local Development
+
+**TL;DR - Just want to run it locally?**
+
+1. Make sure Docker Desktop is running
+2. Clone this repo and navigate to the folder
+3. Run: `docker-compose -f docker-compose.prod.yml up --build -d`
+4. Access:
+   - Personal Tools: http://localhost:3000
+   - n8n Workflows: http://localhost:5678 (admin/password)
+
+That's it! The main `docker-compose.yml` is for production with SSL certificates.
+
 ## 🚀 Features
 
 ### Mini Tools Collection
@@ -41,7 +54,38 @@ docker info
 
 ## 🛠️ Setup Instructions
 
-### Method 1: Quick Start (Recommended)
+### Local Development (Recommended)
+
+The main `docker-compose.yml` is configured for production with SSL certificates. For local development, use one of these approaches:
+
+#### Option 1: Simple Direct Access (Easiest)
+```bash
+# Uses docker-compose.prod.yml without nginx proxy
+docker-compose -f docker-compose.prod.yml up --build -d
+```
+**Access URLs:**
+- Personal Tools: http://localhost:3000
+- n8n Workflows: http://localhost:5678
+
+#### Option 2: Local Development with Nginx
+```bash
+# Uses docker-compose.local.yml with local nginx config
+docker-compose -f docker-compose.local.yml up --build -d
+```
+**Access URLs:**
+- Personal Tools: http://localhost
+- n8n Workflows: http://localhost:5678
+
+#### Option 3: Minimal Setup (No Nginx)
+```bash
+# Uses docker-compose.dev.yml - direct container access
+docker-compose -f docker-compose.dev.yml up --build -d
+```
+**Access URLs:**
+- Personal Tools: http://localhost:3000
+- n8n Workflows: http://localhost:5678
+
+### Production Deployment
 
 1. **Clone or download the project files**
    ```bash
@@ -53,54 +97,59 @@ docker info
    - Launch Docker Desktop application
    - Wait for it to fully start (Docker icon appears in system tray)
 
-3. **Build and run all services**
+3. **Build and run all services (production)**
    ```bash
    docker-compose up --build -d
    ```
+   > ⚠️ **Note:** This requires SSL certificates and domain configuration
 
 4. **Verify services are running**
    ```bash
    docker-compose ps
    ```
 
-5. **Access your applications**
-   - Personal Tools: http://localhost
-   - n8n Workflows: http://localhost:5678
+### Quick Start Steps
 
-### Method 2: Step-by-Step Build
-
-1. **Build the website image**
+1. **Clone the repository**
    ```bash
-   docker build -t personal-tools-website ./website
+   git clone <your-repo-url>
+   cd personal-tools-website
    ```
 
-2. **Pull required images**
+2. **Start Docker Desktop**
+   - Launch Docker Desktop and wait for it to fully start
+
+3. **Choose your setup method**
    ```bash
-   docker pull n8nio/n8n:latest
-   docker pull nginx:alpine
+   # For local development (recommended)
+   docker-compose -f docker-compose.prod.yml up --build -d
+   
+   # OR for production (requires SSL setup)
+   docker-compose up --build -d
    ```
 
-3. **Start services individually**
+4. **Verify everything is running**
    ```bash
-   # Start n8n first
-   docker-compose up -d n8n
-   
-   # Start website
-   docker-compose up -d website
-   
-   # Start nginx proxy
-   docker-compose up -d nginx
+   docker-compose ps
    ```
 
 ## 🎯 Usage
 
 ### Accessing Applications
 
+#### Local Development URLs
+
+| Setup Method | Personal Tools | n8n Workflows | Notes |
+|-------------|---------------|---------------|-------|
+| **Option 1** (prod.yml) | http://localhost:3000 | http://localhost:5678 | Direct access, no nginx |
+| **Option 2** (local.yml) | http://localhost | http://localhost:5678 | With nginx proxy |
+| **Option 3** (dev.yml) | http://localhost:3000 | http://localhost:5678 | Minimal setup |
+
+#### Production URLs
 | Service | URL | Purpose |
 |---------|-----|---------|
-| Personal Tools | http://localhost | Main website with mini tools |
-| n8n Workflows | http://localhost:5678 | Workflow automation platform |
-| Website Direct | http://localhost:3000 | Direct access (bypasses nginx) |
+| Personal Tools | https://lihsheng.space | Main website with mini tools |
+| n8n Workflows | https://n8n.lihsheng.space | Workflow automation platform |
 
 ### n8n Default Credentials
 - **Username:** `admin`
@@ -127,12 +176,30 @@ docker info
 
 ## 🔧 Docker Commands Reference
 
-### Basic Operations
+### Local Development Commands
 ```bash
-# Start all services (detached mode)
-docker-compose up -d
+# Start local development (recommended)
+docker-compose -f docker-compose.prod.yml up --build -d
 
-# Start with rebuild
+# Start with nginx proxy
+docker-compose -f docker-compose.local.yml up --build -d
+
+# Start minimal setup
+docker-compose -f docker-compose.dev.yml up --build -d
+
+# View running containers
+docker-compose -f docker-compose.prod.yml ps
+
+# View logs
+docker-compose -f docker-compose.prod.yml logs
+
+# Stop services
+docker-compose -f docker-compose.prod.yml down
+```
+
+### Production Commands
+```bash
+# Start production services
 docker-compose up --build -d
 
 # View running containers
@@ -266,31 +333,46 @@ personal-tools-website/
 
 ## 🚨 Troubleshooting
 
-### Common Issues
+### Common Local Development Issues
 
-1. **Docker Desktop not running**
+1. **"nginx: [emerg] cannot load certificate" or SSL errors**
+   ```
+   Problem: Using production docker-compose.yml locally
+   Solution: Use docker-compose -f docker-compose.prod.yml up -d instead
+   ```
+
+2. **Port already in use (80, 3000, or 5678)**
+   ```
+   Error: Port is already allocated
+   Solution: Stop other services or use different compose file
+   Windows: netstat -ano | findstr :80
+   Linux/Mac: lsof -i :80
+   ```
+
+3. **Docker Desktop not running**
    ```
    Error: Cannot connect to Docker daemon
    Solution: Start Docker Desktop and wait for it to fully load
    ```
 
-2. **Port already in use**
+4. **n8n not accessible**
    ```
-   Error: Port 80 is already allocated
-   Solution: Stop other services using port 80 or change ports in docker-compose.yml
-   ```
-
-3. **n8n not accessible**
-   ```
-   Check: docker-compose logs n8n
+   Check: docker-compose -f docker-compose.prod.yml logs n8n
    Solution: Wait for n8n to fully initialize (can take 30-60 seconds)
    ```
 
-4. **Website not loading**
+5. **Website not loading**
    ```
-   Check: docker-compose ps
+   Check: docker-compose -f docker-compose.prod.yml ps
    Solution: Ensure all containers are running and healthy
    ```
+
+### Configuration Files Explained
+
+- `docker-compose.yml` - Production setup with SSL and domain names
+- `docker-compose.prod.yml` - Simple setup, perfect for local development
+- `docker-compose.local.yml` - Local development with nginx proxy
+- `docker-compose.dev.yml` - Minimal setup without nginx
 
 ### Getting Help
 ```bash
