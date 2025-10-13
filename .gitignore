@@ -46,3 +46,20 @@ n8n_data/
 # Temporary files
 tmp/
 temp/
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# Deployment packages
+*.zip
+*.tar.gz
+dev-tools-build.*
+dev-tools.*
+
+# EC2 deployment files (keep templates, ignore configured versions)
+# Uncomment these if you want to ignore configured deployment scripts:
+# upload-to-ec2.sh
+# upload-to-ec2.ps1
